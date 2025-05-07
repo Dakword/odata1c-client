@@ -100,10 +100,10 @@ class Query
                 '<' => 'lt',
                 '<=' => 'le',
             ]);
-            $args[2] = $this->quoteValue($args[2]);
+            $args[2] = $this->quoteValue($args[2], $args[1] === 'eq');
             $this->wheres[] = [$logic, implode(' ', $args)];
         } elseif (count($args) == 2) {
-            $args[1] = $this->quoteValue($args[1]);
+            $args[1] = $this->quoteValue($args[1], true);
             array_splice($args, 1, 0, ['eq']);
             $this->wheres[] = [$logic, implode(' ', $args)];
         } elseif (count($args) == 1) {
@@ -412,13 +412,13 @@ class Query
         }
     }
 
-    private function quoteValue($value)
+    private function quoteValue(mixed $value, bool $isEq): string
     {
         if ((is_string($value) && preg_match("/^'.*'$/", $value))
             || (is_string($value) && ($this->is_uuid($value)))
-            || is_numeric($value)
+            || (is_numeric($value) && !$isEq)
         ) {
-            return $value;
+            return (string) $value;
         }
         if (is_bool($value)) {
             return $value ? 'true' : 'false';

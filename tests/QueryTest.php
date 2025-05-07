@@ -265,10 +265,11 @@ class QueryTest extends PHPUnitTestCase
             ->queryString()
         );
         self::assertEquals(
-            "Document_ЗаказКлиента?\$filter=EQ eq 'XXL' and GT gt 20 and EQ eq 'eq' and NE ne 'ne' and NE ne 'ne' and GT gt 'gt' and LT lt 'lt' and GE ge 'ge' and LE le 'le'",
+            "Document_ЗаказКлиента?\$filter=EQ eq 'XXL' and GT gt 20 and EQ eq '20' and EQ eq 'eq' and NE ne 'ne' and NE ne 'ne' and GT gt 'gt' and LT lt 'lt' and GE ge 'ge' and LE le 'le'",
             $this->client->query('Документ_ЗаказКлиента')
                 ->where('EQ', 'XXL')
                 ->where('GT', 'gt', 20)
+                ->where('EQ', '=', '20')
                 ->where('EQ', '=', 'eq')
                 ->where('NE', '<>', 'ne')
                 ->where('NE', '!=', 'ne')

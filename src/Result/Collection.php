@@ -8,6 +8,7 @@ use Countable;
 use GuzzleHttp\Psr7\Request as HttpRequest;
 use GuzzleHttp\Psr7\Response as HttpResponse;
 use IteratorAggregate;
+use Traversable;
 
 class Collection extends AbstractResult implements IteratorAggregate, Countable
 {
@@ -54,7 +55,7 @@ class Collection extends AbstractResult implements IteratorAggregate, Countable
         return count($this->values);
     }
 
-    public function getIterator()
+    public function getIterator(): Traversable
     {
         return new ArrayIterator($this->values);
     }
